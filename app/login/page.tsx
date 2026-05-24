@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -51,34 +52,45 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") ?? "";
+      let data: { token?: string; user?: unknown; error?: string } | null = null;
+
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(text || "Unexpected server response");
+      }
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data?.token ?? "");
+        localStorage.setItem("user", JSON.stringify(data?.user ?? null));
         window.location.href = "/";
       } else {
-        setError(data.error || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+        setError(data?.error || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
-    } catch (err) {
-      setError("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Card Container */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-8 text-center">
+          <div className="bg-linear-to-r from-orange-500 to-orange-600 px-6 py-8 text-center">
             <div className="mb-4">
-              <img
+              <Image
                 src="/logo.svg"
                 alt="วิทยาลัยการอาชีพกุมภวาปี"
-                className="w-20 h-20 mx-auto"
+                width={80}
+                height={80}
+                className="mx-auto"
               />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">วิทยาลัยการอาชีพกุมภวาปี</h1>
@@ -93,7 +105,7 @@ export default function LoginPage() {
             {error && (
               <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
                 <svg
-                  className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+                  className="w-5 h-5 text-red-600 shrink-0 mt-0.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -163,7 +175,7 @@ export default function LoginPage() {
                 className={`w-full py-2.5 px-4 rounded-lg font-semibold text-white transition-all mt-6 ${
                   isLoading
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 active:scale-95"
+                    : "bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 active:scale-95"
                 }`}
               >
                 {isLoading ? (
