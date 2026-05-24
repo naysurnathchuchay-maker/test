@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
-import { users } from "@/lib/users";
+//import { users } from "@/lib/users";
+import {prisma} from "@/lib/prisma";
+
 export async function POST(request: Request) {  
     const { email, password } = await request.json();
-    const user = users.find((u) => u.email === email && u.password === password);
+    const user = await prisma.user.findUnique({
+        where: { email, password }
+    });
     if (user) {
         return NextResponse.json({
             success: true,
