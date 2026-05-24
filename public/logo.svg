@@ -1,0 +1,23 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle -->
+  <circle cx="100" cy="100" r="95" fill="#D4AF37" stroke="#8B6F47" stroke-width="3"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#8B6F47" stroke-width="1"/>
+  
+  <!-- Inner decorative circle -->
+  <circle cx="100" cy="100" r="80" fill="#DC4C46"/>
+  
+  <!-- Golden lotus pattern (simplified) -->
+  <circle cx="100" cy="100" r="60" fill="#F4E4A6" opacity="0.3"/>
+  
+  <!-- Center emblem (Thai art style) -->
+  <circle cx="100" cy="100" r="50" fill="#DC4C46"/>
+  <path d="M 100 65 Q 115 75 115 90 Q 115 105 100 115 Q 85 105 85 90 Q 85 75 100 65" fill="#F4E4A6"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="55" r="3" fill="#D4AF37"/>
+  <circle cx="130" cy="85" r="3" fill="#D4AF37"/>
+  <circle cx="130" cy="115" r="3" fill="#D4AF37"/>
+  <circle cx="100" cy="145" r="3" fill="#D4AF37"/>
+  <circle cx="70" cy="115" r="3" fill="#D4AF37"/>
+  <circle cx="70" cy="85" r="3" fill="#D4AF37"/>
+</svg>
